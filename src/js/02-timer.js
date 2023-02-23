@@ -19,6 +19,7 @@ const refs = {
   hours: document.querySelector('span[data-hours]'),
   minutes: document.querySelector('span[data-minutes]'),
   seconds: document.querySelector('span[data-seconds]'),
+  textCounter: document.querySelectorAll('.value'),
 };
 
 const calendars = new flatpickr(refs.chooseDate, options);
