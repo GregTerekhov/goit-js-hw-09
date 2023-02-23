@@ -2,16 +2,6 @@ import flatpickr from 'flatpickr';
 import Notiflix from 'notiflix';
 import 'flatpickr/dist/flatpickr.min.css';
 
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  onClose(selectedDates) {
-    console.log(selectedDates[0]);
-  },
-};
-
 const refs = {
   chooseDate: document.querySelector('input#datetime-picker'),
   startCounterBtn: document.querySelector('button[data-start]'),
@@ -22,7 +12,17 @@ const refs = {
   textCounter: document.querySelectorAll('.value'),
 };
 
-const calendars = new flatpickr(refs.chooseDate, options);
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    console.log(selectedDates[0]);
+  },
+};
+
+const calendars = flatpickr(refs.chooseDate, options);
 
 class Timer {
   constructor({ onTick }) {
@@ -90,7 +90,7 @@ const timer = new Timer({
 });
 
 refs.startCounterBtn.addEventListener('click', timer.start.bind(timer));
-refs.chooseDate.addEventListener('focusin', flatpickr);
+refs.chooseDate.addEventListener('click', flatpickr);
 
 function updateCounter({ days, hours, minutes, seconds }) {
   refs.days.textContent = `${days}`;
