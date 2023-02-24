@@ -44,8 +44,7 @@ class Timer {
     this.isActive = true;
 
     this.intervalId = setInterval(() => {
-      const currentTime = Number(refs.chooseDate.value);
-      const deltaTime = currentTime - startTime;
+      const deltaTime = selectDate - startTime;
       const timeCounter = this.convertMs(deltaTime);
 
       this.onTick(timeCounter);
@@ -92,7 +91,6 @@ const timer = new Timer({
 });
 
 refs.startCounterBtn.addEventListener('click', timer.start.bind(timer));
-refs.chooseDate.addEventListener('click', flatpickr);
 
 flatpickr(refs.chooseDate, options);
 
