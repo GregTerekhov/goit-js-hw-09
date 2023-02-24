@@ -13,7 +13,6 @@ refs.formEl.addEventListener('change');
 
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
-  const delay = Number(refs.inputDelay.value);
 
   setTimeout(() => {
     if (shouldResolve) {
@@ -21,7 +20,7 @@ function createPromise(position, delay) {
     } else {
       // Reject
     }
-  }, delay);
+  }, Number(refs.inputDelay.value));
 }
 
 createPromise(2, 1500)
