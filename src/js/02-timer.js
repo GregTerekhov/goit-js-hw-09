@@ -47,18 +47,21 @@ class Timer {
       const timeCounter = this.convertMs(deltaTime);
 
       this.onTick(timeCounter);
+
+      if (deltaTime <= 0) {
+        Notiflix.Notify.success('The countdown is over!');
+        clearInterval(this.intervalId);
+        this.isActive = false;
+        const timeCounter = this.convertMs(deltaTime);
+        this.onTick(timeCounter);
+      }
     }, 1000);
   }
 
-  stop() {
-    if (selectDate <= Date.now()) {
-      Notiflix.Notify.success('The countdown is over!');
-      clearInterval(this.intervalId);
-      this.isActive = false;
-      const timeCounter = this.convertMs(deltaTime);
-      this.onTick(timeCounter);
-    }
-  }
+  // stop() {
+  //   if (selectDate <= Date.now()) {
+  //   }
+  // }
 
   addLeadingZero(value) {
     return String(value).padStart(2, '0');
