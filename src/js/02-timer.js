@@ -19,8 +19,8 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    if (selectedDates[0] <= new Date()) {
+  onChange(selectedDates) {
+    if (selectedDates[0] < new Date()) {
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       refs.startCounterBtn.disabled = false;
@@ -40,11 +40,10 @@ class Timer {
       return;
     }
 
-    const startTime = Date.now();
     this.isActive = true;
 
     this.intervalId = setInterval(() => {
-      const deltaTime = selectDate - startTime;
+      const deltaTime = selectDate - Date.now();
       const timeCounter = this.convertMs(deltaTime);
 
       this.onTick(timeCounter);
