@@ -9,8 +9,10 @@ const refs = {
   hours: document.querySelector('span[data-hours]'),
   minutes: document.querySelector('span[data-minutes]'),
   seconds: document.querySelector('span[data-seconds]'),
-  textCounter: document.querySelectorAll('.value'),
 };
+
+let selectDate;
+refs.startCounterBtn.disabled = true;
 
 const options = {
   enableTime: true,
@@ -18,12 +20,14 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    if (selectedDates[0] <= new Date()) {
+      Notiflix.Notify.failure('Please choose a date in the future');
+    } else {
+      refs.startCounterBtn.disabled = false;
+      selectDate = selectedDates[0];
+    }
   },
 };
-
-const calendars = flatpickr(refs.chooseDate, options);
-
 class Timer {
   constructor({ onTick }) {
     this.intervalId = null;
@@ -40,13 +44,11 @@ class Timer {
     this.isActive = true;
 
     this.intervalId = setInterval(() => {
-      const currentTime = Date.now();
+      const currentTime = Number(refs.chooseDate.value);
       const deltaTime = currentTime - startTime;
       const timeCounter = this.convertMs(deltaTime);
 
       this.onTick(timeCounter);
-
-      //   updateCounter(timeCounter);
     }, 1000);
   }
 
@@ -91,6 +93,8 @@ const timer = new Timer({
 
 refs.startCounterBtn.addEventListener('click', timer.start.bind(timer));
 refs.chooseDate.addEventListener('click', flatpickr);
+
+flatpickr(refs.chooseDate, options);
 
 function updateCounter({ days, hours, minutes, seconds }) {
   refs.days.textContent = `${days}`;
