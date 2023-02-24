@@ -19,8 +19,8 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onChange(selectedDates) {
-    if (selectedDates[0] < new Date()) {
+  onClose(selectedDates) {
+    if (selectedDates[0] <= new Date()) {
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       refs.startCounterBtn.disabled = false;
@@ -51,10 +51,13 @@ class Timer {
   }
 
   stop() {
-    clearInterval(this.intervalId);
-    this.isActive = false;
-    const timeCounter = this.convertMs(deltaTime);
-    this.onTick(timeCounter);
+    if (selectDate <= Date.now()) {
+      Notiflix.Notify.success('The countdown is over!');
+      clearInterval(this.intervalId);
+      this.isActive = false;
+      const timeCounter = this.convertMs(deltaTime);
+      this.onTick(timeCounter);
+    }
   }
 
   addLeadingZero(value) {
