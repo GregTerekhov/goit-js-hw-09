@@ -9,21 +9,25 @@ const refs = {
 };
 
 refs.formEl.addEventListener('submit', createPromise);
-refs.formEl.addEventListener('change');
+refs.formEl.addEventListener('input', onEmptyField);
+
+function onEmptyField(event) {
+  event.preventDefault();
+  if (!event.target.value) {
+    Notiflix.Notify.failure('Please fill all fields');
+    return;
+  }
+}
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
-    const promiseData = {
-      position,
-      delay,
-    };
 
     setTimeout(() => {
       if (shouldResolve) {
-        resolve();
+        resolve({ position, delay });
       }
-      reject();
+      reject({ position, delay });
     }, Number(refs.inputDelay.value));
   });
 }
@@ -36,4 +40,5 @@ for (let i = 0; i < Number(amount.value); i += 1) {
     .catch(({ position, delay }) => {
       Notiflix.Notify.failure(`Rejected promise ${position} in ${delay}ms`);
     });
+  delay += Number(inputStep.value);
 }

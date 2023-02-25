@@ -1,6 +1,8 @@
 const startBtn = document.querySelector('button[data-start]');
 const stopBtn = document.querySelector('button[data-stop]');
 
+stopBtn.setAttribute('disabled', true);
+
 const changedBody = {
   intervalId: null,
 

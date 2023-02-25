@@ -49,20 +49,13 @@ class Timer {
 
       this.onTick(timeCounter);
 
-      if (deltaTime <= 0) {
+      if (deltaTime <= 999) {
         Notiflix.Notify.success('The countdown is over!');
         clearInterval(this.intervalId);
         this.isActive = false;
-        const timeCounter = this.convertMs(deltaTime);
-        this.onTick(timeCounter);
       }
     }, 1000);
   }
-
-  // stop() {
-  //   if () {
-  //   }
-  // }
 
   addLeadingZero(value) {
     return String(value).padStart(2, '0');
