@@ -12,31 +12,28 @@ refs.formEl.addEventListener('submit', createPromise);
 refs.formEl.addEventListener('change');
 
 function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
+  return new Promise((resolve, reject) => {
+    const shouldResolve = Math.random() > 0.3;
+    const promiseData = {
+      position,
+      delay,
+    };
 
-  setTimeout(() => {
-    if (shouldResolve) {
-      // Fulfill
-    } else {
-      // Reject
-    }
-  }, Number(refs.inputDelay.value));
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve();
+      }
+      reject();
+    }, Number(refs.inputDelay.value));
+  });
 }
 
-createPromise(2, 1500)
-  .then(({ position, delay }) => {
-    Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-  });
-
-// for (let i = 0; i < Number(amount.value); i += 1) {
-//   createPromise(i + 1, Number(delay.value) + Number(step.value) * i)
-//     .then(({ position, delay }) => {
-//       Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
-//     })
-//     .catch(({ position, delay }) => {
-//       Notify.failure(`Rejected promise ${position} in ${delay}ms`);
-//     });
-// }
+for (let i = 0; i < Number(amount.value); i += 1) {
+  createPromise(i + 1, Number(delay.value) + Number(step.value) * i)
+    .then(({ position, delay }) => {
+      Notiflix.Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+    })
+    .catch(({ position, delay }) => {
+      Notiflix.Notify.failure(`Rejected promise ${position} in ${delay}ms`);
+    });
+}

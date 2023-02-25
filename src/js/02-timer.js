@@ -13,6 +13,7 @@ const refs = {
 
 let selectDate;
 refs.startCounterBtn.disabled = true;
+refs.startCounterBtn.style.cursor = 'pointer';
 
 const options = {
   enableTime: true,
@@ -59,7 +60,7 @@ class Timer {
   }
 
   // stop() {
-  //   if (selectDate <= Date.now()) {
+  //   if () {
   //   }
   // }
 
