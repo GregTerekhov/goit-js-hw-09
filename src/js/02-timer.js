@@ -53,6 +53,8 @@ class Timer {
         Notiflix.Notify.success('The countdown is over!');
         clearInterval(this.intervalId);
         this.isActive = false;
+        const timeCounter = this.convertMs(deltaTime);
+        this.onTick(timeCounter);
       }
     }, 1000);
   }
