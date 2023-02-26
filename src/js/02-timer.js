@@ -20,12 +20,12 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    if (selectedDates[0] <= new Date()) {
+  onClose({ selectedDates }) {
+    if (selectedDates <= Date.now()) {
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       refs.startCounterBtn.disabled = false;
-      selectDate = selectedDates[0];
+      selectDate = selectedDates;
     }
   },
 };

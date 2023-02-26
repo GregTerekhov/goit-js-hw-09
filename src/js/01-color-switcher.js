@@ -9,14 +9,12 @@ const changedBody = {
   start() {
     this.intervalId = setInterval(() => {
       document.body.style.backgroundColor = getRandomHexColor();
-      startBtn.setAttribute('disabled', true);
-      stopBtn.removeAttribute('disabled', true);
+      getBtnAttribute(true);
     }, 1000);
   },
   stop() {
     clearInterval(this.intervalId);
-    stopBtn.setAttribute('disabled', true);
-    startBtn.removeAttribute('disabled', true);
+    getBtnAttribute(false);
   },
 };
 
@@ -25,4 +23,14 @@ stopBtn.addEventListener('click', changedBody.stop.bind(changedBody));
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+}
+
+function getBtnAttribute(isStarted) {
+  if (isStarted) {
+    startBtn.setAttribute('disabled', true);
+    stopBtn.removeAttribute('disabled', true);
+  } else {
+    stopBtn.setAttribute('disabled', true);
+    startBtn.removeAttribute('disabled', true);
+  }
 }
