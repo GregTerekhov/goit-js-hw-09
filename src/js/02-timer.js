@@ -20,7 +20,7 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose({ selectedDates }) {
+  onClose([selectedDates]) {
     if (selectedDates <= Date.now()) {
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
@@ -59,10 +59,6 @@ class Timer {
     }, 1000);
   }
 
-  addLeadingZero(value) {
-    return String(value).padStart(2, '0');
-  }
-
   convertMs(ms) {
     // Number of milliseconds per unit of time
     const second = 1000;
@@ -71,17 +67,13 @@ class Timer {
     const day = hour * 24;
 
     // Remaining days
-    const days = this.addLeadingZero(Math.floor(ms / day));
+    const days = Math.floor(ms / day);
     // Remaining hours
-    const hours = this.addLeadingZero(Math.floor((ms % day) / hour));
+    const hours = Math.floor((ms % day) / hour);
     // Remaining minutes
-    const minutes = this.addLeadingZero(
-      Math.floor(((ms % day) % hour) / minute)
-    );
+    const minutes = Math.floor(((ms % day) % hour) / minute);
     // Remaining seconds
-    const seconds = this.addLeadingZero(
-      Math.floor((((ms % day) % hour) % minute) / second)
-    );
+    const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
     return { days, hours, minutes, seconds };
   }
@@ -96,9 +88,13 @@ refs.startCounterBtn.addEventListener('click', timer.start.bind(timer));
 flatpickr(refs.chooseDate, options);
 
 function updateCounter({ days, hours, minutes, seconds }) {
-  refs.days.textContent = `${days}`;
-  refs.hours.textContent = `${hours}`;
-  refs.minutes.textContent = `${minutes}`;
-  refs.seconds.textContent = `${seconds}`;
+  refs.days.textContent = `${addLeadingZero(days)}`;
+  refs.hours.textContent = `${addLeadingZero(hours)}`;
+  refs.minutes.textContent = `${addLeadingZero(minutes)}`;
+  refs.seconds.textContent = `${addLeadingZero(seconds)}`;
   refs.startCounterBtn.setAttribute('disabled', true);
+}
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
 }
